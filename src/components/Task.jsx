@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardActions from '@mui/material/CardActions';
@@ -6,7 +6,6 @@ import IconButton from '@mui/material/IconButton';
 import Button from '@mui/material/Button';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined';
-import DoneIcon from '@mui/icons-material/Done';
 import WarningAmberIcon from '@mui/icons-material/WarningAmber';
 import Typography from '@mui/material/Typography';
 import { parseISO } from 'date-fns';
@@ -20,10 +19,12 @@ import DialogTitle from '@mui/material/DialogTitle';
 import { DateField } from '@mui/x-date-pickers/DateField';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
+import { TasksContext } from '../context/TasksContext';
 
 const Task = (props) => {
-  const {task} = props;
+  const { task } = props;
 
+  const { deleteTask } = useContext(TasksContext);
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => setOpen(true);
@@ -49,13 +50,13 @@ const Task = (props) => {
           <IconButton color="primary" sx={{ marginLeft: "auto" }} onClick={handleClickOpen}>
             <EditIcon />
           </IconButton>
-          <IconButton aria-label="add to favorites">
+          <IconButton aria-label="add to favorites" onClick={() => deleteTask(task.id)}>
             <DeleteForeverOutlinedIcon />
           </IconButton>
         </CardActions>
       </Card>
-      
-      <Dialog open={open} onClose={handleClose} sx={{ "& .MuiDialog-paper": { width: "100%"}}}>
+
+      <Dialog open={open} onClose={handleClose} sx={{ "& .MuiDialog-paper": { width: "100%" } }}>
         <DialogTitle>Éditer une tâche</DialogTitle>
         <DialogContent>
           <TextField
@@ -84,7 +85,7 @@ const Task = (props) => {
           <Button onClick={handleClose}>Ajouter</Button>
         </DialogActions>
       </Dialog>
-    </> 
+    </>
   );
 }
 

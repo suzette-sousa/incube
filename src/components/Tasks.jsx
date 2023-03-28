@@ -4,6 +4,9 @@ import Masonry from '@mui/lab/Masonry';
 import AddTask from "./AddTask";
 import Zoom from '@mui/material/Zoom';
 import { TasksContext } from '../context/TasksContext';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import Typography from '@mui/material/Typography';
 
 const Tasks = () => {
   const [loaded, setLoaded] = useState(false);
@@ -17,7 +20,17 @@ const Tasks = () => {
     <>
       <AddTask />
 
-      <Zoom in={loaded} style={{ transitionDelay: '100ms' }}>
+      {!tasks.length && (
+        <Card sx={{ minWidth: 275 }}>
+          <CardContent>
+            <Typography variant="h5" component="div" align="center">
+              Aucune tâche
+            </Typography>
+          </CardContent>
+        </Card>
+      )}
+
+      <Zoom in={loaded} style={{ transitionDelay: '100ms' }} align="center">
         <Masonry columns={{ xs: 1, sm: 2, md: 3, lg: 4 }} spacing={3} sx={{ mx: 0 }}>
           {tasks.map((task) => <Task key={task.id} task={task} />)}
         </Masonry>
