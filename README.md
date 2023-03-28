@@ -1,7 +1,7 @@
 # TASKS
 
 ## Stack
-Vite ⦿ React ⦿ Context API ⦿ MUI ⦿ react-uuid ⦿ date-fns
+React ⦿ Context API ⦿ MUI ⦿ react-uuid ⦿ date-fns ⦿ Vite
 
 
 ## Scripts
@@ -14,10 +14,12 @@ Vite ⦿ React ⦿ Context API ⦿ MUI ⦿ react-uuid ⦿ date-fns
 
 
 ## Brief
-Liste de tâches en React. 
+Liste de tâches en React.
+
 Utilisation des React Hooks pour la gestion de l'état.
 
 Liste des tâches doit être affichée sous forme de carte.
+
 Pour chaque tâche : nom de la tâche, description, date d'échéance et statut (terminé ou non terminé).
 
 L'interface utilisateur doit inclure les fonctionnalités suivantes :
