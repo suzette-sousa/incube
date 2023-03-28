@@ -38,12 +38,16 @@ const Task = (props) => {
           <Typography variant="h5" component="div">
             {task.name}
           </Typography>
-          <Typography sx={{ mb: 1.5 }} color="text.secondary">
-            {isPast(parseISO(task.duedate)) && task.completed && <WarningAmberIcon color="error" />} Date d'échéance : {format(parseISO(task.duedate), 'dd/MM/yyyy')}
-          </Typography>
-          <Typography variant="body2">
-            Description : {task.descr}
-          </Typography>
+          {task.duedate && (
+            <Typography sx={{ mb: 1.5 }} color="text.secondary">
+              {isPast(parseISO(task.duedate)) && !task.completed && <WarningAmberIcon color="error" />} Date d'échéance : {format(parseISO(task.duedate), 'dd/MM/yyyy')}
+            </Typography>
+          )}
+          {task.descr && (
+            <Typography variant="body2">
+              Description : {task.descr}
+            </Typography>
+          )}
         </CardContent>
         <CardActions>
           <FormControlLabel control={<Switch checked={task.completed} color={task.completed ? "success" : "default"} onChange={() => switchStatus(task.id)} />} label="Terminé" />
