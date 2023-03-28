@@ -111,6 +111,7 @@ const TaskForm = () => {
           <DateField
             margin="dense"
             label="Date d'échéance"
+            variant="standard"
             value={taskDuedate?.length ? dayjs(taskDuedate) : null}
             onChange={(e) => setTaskDuedate(formatISO(new Date(e)))}
             format="DD-MM-YYYY"
