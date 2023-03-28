@@ -32,7 +32,10 @@ const Tasks = () => {
 
       <Zoom in={loaded} style={{ transitionDelay: '100ms' }}>
         <Masonry columns={{ xs: 1, sm: 2, md: 3, lg: 4 }} spacing={3} sx={{ mx: 0 }}>
-          {tasks.map((task) => <Task key={task.id} task={task} />)}
+          {tasks
+            .sort((a, b) => new Date(b.duedate) - new Date(a.duedate))
+            .map((task) => <Task key={task.id} task={task} />)
+          }
         </Masonry>
       </Zoom>
     </>
