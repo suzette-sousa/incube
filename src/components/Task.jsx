@@ -24,7 +24,7 @@ import { TasksContext } from '../context/TasksContext';
 const Task = (props) => {
   const { task } = props;
 
-  const { deleteTask } = useContext(TasksContext);
+  const { deleteTask, switchStatus } = useContext(TasksContext);
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => setOpen(true);
@@ -39,14 +39,14 @@ const Task = (props) => {
             {task.name}
           </Typography>
           <Typography sx={{ mb: 1.5 }} color="text.secondary">
-            {isPast(parseISO(task.duedate)) && task.status === 0 && <WarningAmberIcon color="error" />} Date d'échéance : {format(parseISO(task.duedate), 'dd/MM/yyyy')}
+            {isPast(parseISO(task.duedate)) && task.completed === 0 && <WarningAmberIcon color="error" />} Date d'échéance : {format(parseISO(task.duedate), 'dd/MM/yyyy')}
           </Typography>
           <Typography variant="body2">
             Description : {task.descr}
           </Typography>
         </CardContent>
         <CardActions>
-          <FormControlLabel control={<Switch checked={task.status === 1 ? true : false} color={task.status === 1 ? "success" : "default"} />} label="Terminé" />
+          <FormControlLabel control={<Switch checked={task.completed} color={task.completed ? "success" : "default"} onChange={() => switchStatus(task.id)} />} label="Terminé" />
           <IconButton color="primary" sx={{ marginLeft: "auto" }} onClick={handleClickOpen}>
             <EditIcon />
           </IconButton>

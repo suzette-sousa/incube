@@ -30,7 +30,7 @@ const Tasks = () => {
         </Card>
       )}
 
-      <Zoom in={loaded} style={{ transitionDelay: '100ms' }} align="center">
+      <Zoom in={loaded} style={{ transitionDelay: '100ms' }}>
         <Masonry columns={{ xs: 1, sm: 2, md: 3, lg: 4 }} spacing={3} sx={{ mx: 0 }}>
           {tasks.map((task) => <Task key={task.id} task={task} />)}
         </Masonry>
