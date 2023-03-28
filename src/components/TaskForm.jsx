@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
@@ -12,24 +12,31 @@ import { TasksContext } from '../context/TasksContext';
 import uuid from 'react-uuid';
 import { formatISO } from 'date-fns';
 import Alert from '@mui/material/Alert';
+import { format, parseISO } from 'date-fns';
+import dayjs from 'dayjs';
 
 const AddTask = () => {
   const [open, setOpen] = useState(false);
-  const [taskName, setTaskName] = useState(null);
-  const [taskDescr, setTaskDescr] = useState(null);
-  const [taskDuedate, setTaskDuedate] = useState(null);
+  const [taskName, setTaskName] = useState("");
+  const [taskDescr, setTaskDescr] = useState("");
+  const [taskDuedate, setTaskDuedate] = useState("");
+  const [taskCompleted, setTaskCompleted] = useState(false);
   const [error, setError] = useState(false);
 
-  const { addTask } = useContext(TasksContext);
+  const { addTask, taskToEdit, resetTaskToEdit, updateTask } = useContext(TasksContext);
 
   const handleClickOpen = () => setOpen(true);
 
   const handleClose = () => {
     setOpen(false);
-    setError(false);
-    setTaskName(null);
-    taskDescr(null);
-    taskDuedate(null);
+    setTimeout(() => {
+      setError(false);
+      setTaskName("");
+      setTaskDescr("");
+      setTaskDuedate("");
+      setTaskCompleted(false);
+      if(taskToEdit) resetTaskToEdit();
+    }, "100");
   }
 
   const handleSubmit = () => {
@@ -38,10 +45,20 @@ const AddTask = () => {
       return false;
     }
 
-    const newTask = { id: uuid(), name: taskName, descr: taskDescr, duedate: taskDuedate, completed: false };
-    addTask(newTask);
+    const taskToSubmit = { id: taskToEdit ? taskToEdit.id : uuid(), name: taskName, descr: taskDescr, duedate: taskDuedate, completed: taskCompleted };
+    taskToEdit ? updateTask(taskToSubmit) : addTask(taskToSubmit);
     handleClose();
   }
+
+  useEffect(() => {
+    if(taskToEdit) {
+      setOpen(true);
+      setTaskName(taskToEdit.name);
+      setTaskDescr(taskToEdit?.descr);
+      setTaskDuedate(taskToEdit?.duedate ? format(parseISO(taskToEdit?.duedate), 'yyyy-MM-dd') : "");
+      setTaskCompleted(taskToEdit.completed);
+    }
+  }, [taskToEdit]);
 
   return (
     <>
@@ -50,7 +67,7 @@ const AddTask = () => {
       </Fab>
 
       <Dialog open={open} onClose={handleClose} sx={{ "& .MuiDialog-paper": { width: "100%" } }}>
-        <DialogTitle>Ajouter une tâche</DialogTitle>
+        <DialogTitle>{taskToEdit ? "Éditer la tâche" : "Ajouter une tâche"}</DialogTitle>
 
         <DialogContent>
           <TextField
@@ -60,6 +77,7 @@ const AddTask = () => {
             type="text"
             fullWidth
             variant="standard"
+            value={taskName}
             onChange={(e) => setTaskName(e.target.value)}
           />
           <TextField
@@ -69,11 +87,14 @@ const AddTask = () => {
             type="text"
             fullWidth
             variant="standard"
+            multiline
+            value={taskDescr}
             onChange={(e) => setTaskDescr(e.target.value)}
           />
           <DateField
             margin="dense"
             label="Date d'échéance"
+            value={taskDuedate?.length ? dayjs(taskDuedate) : null}
             onChange={(e) => setTaskDuedate(formatISO(new Date(e)))}
             format="DD-MM-YYYY"
           />
@@ -82,7 +103,7 @@ const AddTask = () => {
 
         <DialogActions>
           <Button onClick={handleClose} variant="outlined">Annuler</Button>
-          <Button onClick={handleSubmit} variant="contained">Ajouter</Button>
+          <Button onClick={handleSubmit} variant="contained">{taskToEdit ? "Éditer" : "Ajouter"}</Button>
         </DialogActions>
       </Dialog>
     </>

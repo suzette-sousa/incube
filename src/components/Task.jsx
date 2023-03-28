@@ -1,9 +1,8 @@
-import { useState, useContext } from "react";
+import { useContext } from "react";
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardActions from '@mui/material/CardActions';
 import IconButton from '@mui/material/IconButton';
-import Button from '@mui/material/Button';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined';
 import WarningAmberIcon from '@mui/icons-material/WarningAmber';
@@ -11,12 +10,6 @@ import Typography from '@mui/material/Typography';
 import { parseISO } from 'date-fns';
 import { isPast } from 'date-fns';
 import { format } from 'date-fns';
-import TextField from '@mui/material/TextField';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogTitle from '@mui/material/DialogTitle';
-import { DateField } from '@mui/x-date-pickers/DateField';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
 import { TasksContext } from '../context/TasksContext';
@@ -24,12 +17,7 @@ import { TasksContext } from '../context/TasksContext';
 const Task = (props) => {
   const { task } = props;
 
-  const { deleteTask, switchStatus } = useContext(TasksContext);
-  const [open, setOpen] = useState(false);
-
-  const handleClickOpen = () => setOpen(true);
-
-  const handleClose = () => setOpen(false);
+  const { getTaskToEdit, deleteTask, switchStatus } = useContext(TasksContext);
 
   return (
     <>
@@ -51,7 +39,7 @@ const Task = (props) => {
         </CardContent>
         <CardActions>
           <FormControlLabel control={<Switch checked={task.completed} color={task.completed ? "success" : "default"} onChange={() => switchStatus(task.id)} />} label="Terminé" />
-          <IconButton color="primary" sx={{ marginLeft: "auto" }} onClick={handleClickOpen}>
+          <IconButton color="primary" sx={{ marginLeft: "auto" }} onClick={() => getTaskToEdit(task)}>
             <EditIcon />
           </IconButton>
           <IconButton aria-label="add to favorites" onClick={() => deleteTask(task.id)}>
@@ -59,36 +47,6 @@ const Task = (props) => {
           </IconButton>
         </CardActions>
       </Card>
-
-      <Dialog open={open} onClose={handleClose} sx={{ "& .MuiDialog-paper": { width: "100%" } }}>
-        <DialogTitle>Éditer une tâche</DialogTitle>
-        <DialogContent>
-          <TextField
-            margin="dense"
-            id="name"
-            label="Nom"
-            type="text"
-            fullWidth
-            variant="standard"
-          />
-          <TextField
-            margin="dense"
-            id="description"
-            label="Description"
-            type="text"
-            fullWidth
-            variant="standard"
-          />
-          <DateField
-            margin="dense"
-            label="Date d'échéance"
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose}>Annuler</Button>
-          <Button onClick={handleClose}>Ajouter</Button>
-        </DialogActions>
-      </Dialog>
     </>
   );
 }

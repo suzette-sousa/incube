@@ -1,7 +1,7 @@
 import { useEffect, useState, useContext } from "react";
 import Task from "./Task";
 import Masonry from '@mui/lab/Masonry';
-import AddTask from "./AddTask";
+import AddTask from "./TaskForm";
 import Zoom from '@mui/material/Zoom';
 import { TasksContext } from '../context/TasksContext';
 import Card from '@mui/material/Card';
