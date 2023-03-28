@@ -1,4 +1,10 @@
 import { useState, useContext, useEffect } from "react";
+import { TasksContext } from '../context/TasksContext';
+import uuid from 'react-uuid';
+import { formatISO, format, parseISO } from 'date-fns';
+import dayjs from 'dayjs';
+// --- @mui --- //
+import Alert from '@mui/material/Alert';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
@@ -8,14 +14,9 @@ import DialogTitle from '@mui/material/DialogTitle';
 import AddIcon from '@mui/icons-material/Add';
 import { DateField } from '@mui/x-date-pickers/DateField';
 import Fab from '@mui/material/Fab';
-import { TasksContext } from '../context/TasksContext';
-import uuid from 'react-uuid';
-import { formatISO } from 'date-fns';
-import Alert from '@mui/material/Alert';
-import { format, parseISO } from 'date-fns';
-import dayjs from 'dayjs';
+// --- @mui - end --- //
 
-const AddTask = () => {
+const TaskForm = () => {
   const [open, setOpen] = useState(false);
   const [taskName, setTaskName] = useState("");
   const [taskDescr, setTaskDescr] = useState("");
@@ -29,13 +30,14 @@ const AddTask = () => {
 
   const handleClose = () => {
     setOpen(false);
+    // To aplly initial state after transition modal
     setTimeout(() => {
       setError(false);
       setTaskName("");
       setTaskDescr("");
       setTaskDuedate("");
       setTaskCompleted(false);
-      if(taskToEdit) resetTaskToEdit();
+      if (taskToEdit) resetTaskToEdit();
     }, "100");
   }
 
@@ -45,13 +47,19 @@ const AddTask = () => {
       return false;
     }
 
-    const taskToSubmit = { id: taskToEdit ? taskToEdit.id : uuid(), name: taskName, descr: taskDescr, duedate: taskDuedate, completed: taskCompleted };
+    const taskToSubmit = {
+      id: taskToEdit ? taskToEdit.id : uuid(),
+      name: taskName,
+      descr: taskDescr,
+      duedate: taskDuedate,
+      completed: taskCompleted
+    };
     taskToEdit ? updateTask(taskToSubmit) : addTask(taskToSubmit);
     handleClose();
   }
 
   useEffect(() => {
-    if(taskToEdit) {
+    if (taskToEdit) {
       setOpen(true);
       setTaskName(taskToEdit.name);
       setTaskDescr(taskToEdit?.descr);
@@ -62,11 +70,20 @@ const AddTask = () => {
 
   return (
     <>
-      <Fab color="primary" aria-label="add" sx={{ position: "fixed", bottom: 30, right: 30 }} onClick={handleClickOpen}>
+      <Fab 
+        color="primary" 
+        aria-label="add" 
+        sx={{ position: "fixed", bottom: 30, right: 30 }} 
+        onClick={handleClickOpen}
+      >
         <AddIcon />
       </Fab>
 
-      <Dialog open={open} onClose={handleClose} sx={{ "& .MuiDialog-paper": { width: "100%" } }}>
+      <Dialog 
+        open={open} 
+        onClose={handleClose} 
+        sx={{ "& .MuiDialog-paper": { width: "100%" } }}
+      >
         <DialogTitle>{taskToEdit ? "Éditer la tâche" : "Ajouter une tâche"}</DialogTitle>
 
         <DialogContent>
@@ -102,12 +119,22 @@ const AddTask = () => {
         </DialogContent>
 
         <DialogActions>
-          <Button onClick={handleClose} variant="outlined">Annuler</Button>
-          <Button onClick={handleSubmit} variant="contained">{taskToEdit ? "Éditer" : "Ajouter"}</Button>
+          <Button 
+            onClick={handleClose} 
+            variant="outlined"
+          >
+            Annuler
+          </Button>
+          <Button 
+            onClick={handleSubmit} 
+            variant="contained"
+          >
+              {taskToEdit ? "Éditer" : "Ajouter"}
+          </Button>
         </DialogActions>
       </Dialog>
     </>
   );
 }
 
-export default AddTask;
+export default TaskForm;

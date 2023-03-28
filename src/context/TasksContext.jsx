@@ -7,11 +7,13 @@ export const TasksProvider = ({ children }) => {
   const [tasks, setTasks] = useState(tasksData);
   const [taskToEdit, setTaskToEdit] = useState(null);
 
+  // Add
   const addTask = addedTask => setTasks([{ ...addedTask }, ...tasks]);
 
+  // Edit
   const getTaskToEdit = task => setTaskToEdit(task);
 
-  const resetTaskToEdit = task => setTaskToEdit(null);
+  const resetTaskToEdit = () => setTaskToEdit(null);
 
   const updateTask = updatedTask => {
     setTasks(tasks => tasks.map(task => {
@@ -20,6 +22,7 @@ export const TasksProvider = ({ children }) => {
     }))
   }
 
+  // Change status
   const switchStatus = id => {
     setTasks(tasks => tasks.map(task => {
       if (task.id === id) return { ...task, completed: !task.completed }
@@ -27,6 +30,7 @@ export const TasksProvider = ({ children }) => {
     }))
   }
 
+  // Delete
   const deleteTask = id => setTasks(tasks => tasks.filter(task => task.id !== id));
 
   return (
