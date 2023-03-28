@@ -39,7 +39,7 @@ const Task = (props) => {
             {task.name}
           </Typography>
           <Typography sx={{ mb: 1.5 }} color="text.secondary">
-            {isPast(parseISO(task.duedate)) && task.completed === 0 && <WarningAmberIcon color="error" />} Date d'échéance : {format(parseISO(task.duedate), 'dd/MM/yyyy')}
+            {isPast(parseISO(task.duedate)) && task.completed && <WarningAmberIcon color="error" />} Date d'échéance : {format(parseISO(task.duedate), 'dd/MM/yyyy')}
           </Typography>
           <Typography variant="body2">
             Description : {task.descr}
