@@ -18,11 +18,11 @@ const AddTask = () => {
 
   return (
     <>
-      <Fab color="primary" aria-label="add" sx={{ position: "fixed", bottom: 30, right: 30}} onClick={handleClickOpen}>
+      <Fab color="primary" aria-label="add" sx={{ position: "fixed", bottom: 30, right: 30 }} onClick={handleClickOpen}>
         <AddIcon />
       </Fab>
 
-      <Dialog open={open} onClose={handleClose} sx={{ "& .MuiDialog-paper": { width: "100%"}}}>
+      <Dialog open={open} onClose={handleClose} sx={{ "& .MuiDialog-paper": { width: "100%" } }}>
         <DialogTitle>Ajouter une tâche</DialogTitle>
         <DialogContent>
           <TextField
@@ -51,7 +51,7 @@ const AddTask = () => {
           <Button onClick={handleClose}>Ajouter</Button>
         </DialogActions>
       </Dialog>
-    </> 
+    </>
   );
 }
 
