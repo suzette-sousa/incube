@@ -16,21 +16,22 @@ const TasksPage = () => {
           variant="h4" 
           component="h1" 
           align="center" 
-          sx={{ mt: 3 }}
+          sx={{ mt: 3, fontWeight: "100" }}
         >
-          Tâches
+          Ma liste de tâches
         </Typography>
       </header>
 
       <Divider>
         <Chip
           icon={<AssignmentIcon />}
+          label="Tâches"
           sx={{ 
             "& .MuiChip-label": { display: "none" }, 
-            "& .MuiChip-icon": { margin: 0 }, 
+            "& .MuiChip-icon": { margin: 0, color: "#000" }, 
             width: "3rem", 
             height: "3rem", 
-            my: 3 
+            my: 2 
           }}
           variant="outlined"
         />

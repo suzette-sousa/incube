@@ -70,21 +70,21 @@ const TaskForm = () => {
 
   return (
     <>
-      <Fab 
-        color="primary" 
-        aria-label="add" 
-        sx={{ position: "fixed", bottom: 30, right: 30 }} 
+      <Fab
+        color="primary"
+        aria-label="add"
+        sx={{ position: "fixed", bottom: 30, right: 30 }}
         onClick={handleClickOpen}
       >
         <AddIcon />
       </Fab>
 
-      <Dialog 
-        open={open} 
-        onClose={handleClose} 
+      <Dialog
+        open={open}
+        onClose={handleClose}
         sx={{ "& .MuiDialog-paper": { width: "100%" } }}
       >
-        <DialogTitle>{taskToEdit ? "Éditer la tâche" : "Ajouter une tâche"}</DialogTitle>
+        <DialogTitle sx={{ backgroundColor: "#0054a9", color: "#fff" }} >{taskToEdit ? "Éditer la tâche" : "Ajouter une tâche"}</DialogTitle>
 
         <DialogContent>
           <TextField
@@ -120,17 +120,19 @@ const TaskForm = () => {
         </DialogContent>
 
         <DialogActions>
-          <Button 
-            onClick={handleClose} 
+          <Button
+            onClick={handleClose}
             variant="outlined"
+            size="large"
           >
             Annuler
           </Button>
-          <Button 
-            onClick={handleSubmit} 
+          <Button
+            onClick={handleSubmit}
             variant="contained"
+            size="large"
           >
-              {taskToEdit ? "Éditer" : "Ajouter"}
+            {taskToEdit ? "Éditer" : "Ajouter"}
           </Button>
         </DialogActions>
       </Dialog>
